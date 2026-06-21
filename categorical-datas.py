@@ -10,7 +10,7 @@ print(ulke)
 
 from sklearn import preprocessing
 
-le = preprocessing.LabelEncoder() #turns nominal values into numerical
+le = preprocessing.LabelEncoder() #turns categorical values into numerical
 ulke[:,0] = le.fit_transform(datas.iloc[:,0])
 print(ulke)
 
