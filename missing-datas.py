@@ -12,6 +12,6 @@ imputer = SimpleImputer(missing_values=np.nan, strategy='mean') #puts the mean i
 
 yas = datas.iloc[:,1:4].values
 print(yas)
-imputer= imputer.fit(yas[:,1:4])
-yas[:,1:4] = imputer.transform(yas[:,1:4])
+imputer= imputer.fit(yas[:,1:4]) #learning
+yas[:,1:4] = imputer.transform(yas[:,1:4]) #exec
 print(yas)
