@@ -3,18 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # importing data
-datas = pd.read_csv('eksikveriler.csv')
+datas = pd.read_csv('prediction/insanlar.csv')
 
-# missing datas
 ulke = datas.iloc[:,0:1].values.copy() #integer location
-
-from sklearn.impute import SimpleImputer
-
-imputer = SimpleImputer(missing_values=np.nan, strategy='mean') #puts the mean into the missing datas
-
 yas = datas.iloc[:,1:4].values
-imputer= imputer.fit(yas[:,1:4]) #learning
-yas[:,1:4] = imputer.transform(yas[:,1:4]) #exec
 
 # categorical datas
 from sklearn import preprocessing
@@ -25,13 +17,25 @@ ulke[:,0] = le.fit_transform(datas.iloc[:,0])
 ohe = preprocessing.OneHotEncoder() #used when there is no order between the transformed numbers
 ulke = ohe.fit_transform(ulke).toarray()
 
+c = datas.iloc[:,-1].values
+
+le = preprocessing.LabelEncoder() 
+c[:,-1] = le.fit_transform(datas.iloc[:,-1])
+
+ohe = preprocessing.OneHotEncoder() 
+c = ohe.fit_transform(c).toarray()
+
 # data frames
 result1 = pd.DataFrame(data=ulke, index=range(22), columns=['fr','tr','us'])
 result2 = pd.DataFrame(data=yas, index=range(22), columns=['boy','kilo','yas'])
 cinsiyet = datas.iloc[:,-1].values
-result3 = pd.DataFrame(data=cinsiyet, index=range(22), columns=['cinsiyet'])
+result3 = pd.DataFrame(data=c[:,:1], index=range(22), columns=['cinsiyet'])
 r1 = pd.concat([result1,result2], axis=1)
 r2 = pd.concat([r1,result3], axis=1)
+print(c)
+print(r1)
+print(r2)
+
 
 # splitting dataset into train and test
 from sklearn.model_selection import train_test_split
