@@ -17,10 +17,11 @@ ulke[:,0] = le.fit_transform(datas.iloc[:,0])
 ohe = preprocessing.OneHotEncoder() #used when there is no order between the transformed numbers
 ulke = ohe.fit_transform(ulke).toarray()
 
-c = datas.iloc[:,-1].values
+c = datas.iloc[:,-1].values.copy()
 
 le = preprocessing.LabelEncoder() 
-c[:,-1] = le.fit_transform(datas.iloc[:,-1])
+# c[:,-1] = le.fit_transform(datas.iloc[:,-1])
+c = le.fit_transform(c).reshape(-1,1)
 
 ohe = preprocessing.OneHotEncoder() 
 c = ohe.fit_transform(c).toarray()
