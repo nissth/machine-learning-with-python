@@ -33,9 +33,9 @@ cinsiyet = datas.iloc[:,-1].values
 result3 = pd.DataFrame(data=c[:,:1], index=range(22), columns=['cinsiyet'])
 r1 = pd.concat([result1,result2], axis=1)
 r2 = pd.concat([r1,result3], axis=1)
-print(c)
-print(r1)
-print(r2)
+# print(c)
+# print(r1)
+# print(r2)
 
 
 # splitting dataset into train and test
@@ -43,17 +43,29 @@ from sklearn.model_selection import train_test_split
 
 x_train,x_test,y_train,y_test = train_test_split(r1,result3,test_size=0.33,random_state=0)
 
-# x = dependent - ulke,boy,kilo,yas
-# y = independent - cinsiyet
-# finding y by using x
+# linear regresssion
+from sklearn.linear_model import LinearRegression
 
-# standardization
-from sklearn.preprocessing import StandardScaler
-sc = StandardScaler()
+regressor = LinearRegression()
+regressor.fit(x_train,y_train) # learn y_train with respect to x_train
+y_pred = regressor.predict(x_test)
+# print(y_test)
+# print(y_pred)
 
-x_train = sc.fit_transform(x_train)
-x_test = sc.fit_transform(x_test)
+# multiple linear regression
+boy = r2.iloc[:,3:4].values
+# print(boy)
 
-print(x_train)
-print(' ')
-print(x_test)
+left = r2.iloc[:,:3]
+right = r2.iloc[:,4:]
+
+data = pd.concat([left,right], axis=1)
+x_train,x_test,y_train,y_test = train_test_split(data,boy,test_size=0.33,random_state=0)
+# print(x_train)
+# print(y_train)
+
+regressor2 = LinearRegression()
+regressor2.fit(x_train,y_train)
+y_pred = regressor2.predict(x_test)
+print(y_pred)
+print(y_test)
