@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 # importing data
 datas = pd.read_csv('prediction/polynomial-regression/maaslar.csv')
 
-x = datas.iloc[:,1:2]
-y = datas.iloc[:,2:]
+x = datas.iloc[:,1:2].values
+y = datas.iloc[:,2:].values
 #print(x)
 #print(y)
 
@@ -34,11 +34,19 @@ plt.plot(x,lr2.predict(pr.fit_transform(x)))
 plt.show()
 
 # testing the result of the regressions
-print(lr.predict(pd.DataFrame([[11]], columns=x.columns)))
-print(lr.predict(pd.DataFrame([[6.6]], columns=x.columns)))
+# linear result
+print(lr.predict([[11]]))
+print(lr.predict([[6.6]]))
 
-print(lr2.predict(pr.fit_transform(pd.DataFrame([[11]], columns=x.columns))))
-print(lr2.predict(pr.fit_transform(pd.DataFrame([[6.6]], columns=x.columns))))
+# polynomial result
+print(lr2.predict(pr.fit_transform([[11]])))
+print(lr2.predict(pr.fit_transform([[6.6]])))
+
+
+# print(lr.predict(pd.DataFrame([[11]], columns=x.columns)))
+# print(lr.predict(pd.DataFrame([[6.6]], columns=x.columns)))
+# print(lr2.predict(pr.fit_transform(pd.DataFrame([[11]], columns=x.columns))))
+# print(lr2.predict(pr.fit_transform(pd.DataFrame([[6.6]], columns=x.columns))))
 
 
 # from sklearn.preprocessing import PolynomialFeatures
