@@ -29,3 +29,6 @@ plt.show()
 
 print(svr.predict([[11]]))
 print(svr.predict([[6.6]]))
+
+from sklearn.metrics import r2_score
+print(r2_score(y_scaled,svr.predict(x_scaled)))

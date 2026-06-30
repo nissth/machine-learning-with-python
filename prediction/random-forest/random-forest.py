@@ -19,3 +19,7 @@ plt.show()
 # test
 print(rf.predict([[11]]))
 print(rf.predict([[6.6]]))
+
+# r2 value
+from sklearn.metrics import r2_score
+print(r2_score(y,rf.predict(x)))

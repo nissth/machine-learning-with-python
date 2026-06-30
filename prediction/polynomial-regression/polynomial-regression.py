@@ -42,6 +42,11 @@ print(lr.predict([[6.6]]))
 print(lr2.predict(pr.fit_transform([[11]])))
 print(lr2.predict(pr.fit_transform([[6.6]])))
 
+from sklearn.metrics import r2_score
+print(r2_score(y,lr2.predict(pr.fit_transform(x))))
+
+
+print(r2_score(y,lr.predict(x)))
 
 # print(lr.predict(pd.DataFrame([[11]], columns=x.columns)))
 # print(lr.predict(pd.DataFrame([[6.6]], columns=x.columns)))
