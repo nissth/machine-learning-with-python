@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # importing data
-datas = pd.read_csv('classification/logistic-regression/veriler.csv')
+datas = pd.read_csv('classification/veriler.csv')
 
 x = datas.iloc[:,1:4].values # independent values
 y = datas.iloc[:,4:].values # dependent value
@@ -32,3 +32,8 @@ lgr.fit(x_train,y_train.ravel())
 y_pred = lgr.predict(x_test)
 print(y_pred)
 print(y_test)
+
+# confusion matrix
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test,y_pred)
+print(cm)
