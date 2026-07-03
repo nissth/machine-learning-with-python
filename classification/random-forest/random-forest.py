@@ -31,9 +31,15 @@ print(y_test)
 
 # probability calculation
 y_proba = rfc.predict_proba(x_test) # gives the probability of true and false, predicts via treshold
-print(y_proba) 
 
 # confusion matrix
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test,y_pred)
 print(cm)
+
+# roc curve
+from sklearn import metrics
+fpr, tpr, thold= metrics.roc_curve(y_test,y_proba[:,0],pos_label='e')
+print(fpr)
+print(tpr)
+print(thold)
