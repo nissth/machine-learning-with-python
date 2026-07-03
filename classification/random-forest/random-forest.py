@@ -29,6 +29,10 @@ y_pred = rfc.predict(x_test)
 print(y_pred)
 print(y_test)
 
+# probability calculation
+y_proba = rfc.predict_proba(x_test) # gives the probability of true and false, predicts via treshold
+print(y_proba) 
+
 # confusion matrix
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test,y_pred)
