@@ -5,43 +5,41 @@ import matplotlib.pyplot as plt
 # importing data
 datas = pd.read_csv('prediction/tennis-example/tennis.csv')
 
-ulke = datas.iloc[:,0:1].values.copy() #integer location
-yas = datas.iloc[:,1:4].values
+outlook = datas.iloc[:,0:1].values.copy() #integer location
+temphum = datas.iloc[:,1:3].values.copy()
+windy = datas.iloc[:,3:4].values.ravel()
 
 # categorical datas
 from sklearn import preprocessing
 
 le = preprocessing.LabelEncoder() #turns categorical values into numerical
-ulke[:,0] = le.fit_transform(datas.iloc[:,0])
+outlook[:,0] = le.fit_transform(datas.iloc[:,0])
 
 ohe = preprocessing.OneHotEncoder() #used when there is no order between the transformed numbers
-ulke = ohe.fit_transform(ulke).toarray()
+outlook = ohe.fit_transform(outlook).toarray()
 
-c = datas.iloc[:,-1].values.copy()
-
-le = preprocessing.LabelEncoder() 
-# c[:,-1] = le.fit_transform(datas.iloc[:,-1])
-c = le.fit_transform(c).reshape(-1,1)
+play = datas.iloc[:,-1].values
+play = le.fit_transform(play).reshape(-1,1)
 
 ohe = preprocessing.OneHotEncoder() 
-c = ohe.fit_transform(c).toarray()
+play = ohe.fit_transform(play).toarray()
 
 # data frames
-result1 = pd.DataFrame(data=ulke, index=range(22), columns=['fr','tr','us'])
-result2 = pd.DataFrame(data=yas, index=range(22), columns=['boy','kilo','yas'])
-cinsiyet = datas.iloc[:,-1].values
-result3 = pd.DataFrame(data=c[:,:1], index=range(22), columns=['cinsiyet'])
+result1 = pd.DataFrame(data=outlook, index=range(14), columns=['overcast','rainy','sunny']) # alphabetical order
+result12 = pd.DataFrame(data=temphum, index=range(14), columns=['temperature','humidity'])
+result2 = pd.DataFrame(data=windy, index=range(14), columns=['windy'])
+result3 = pd.DataFrame(data=play[:,:1], index=range(14), columns=['play'])
 r1 = pd.concat([result1,result2], axis=1)
-r2 = pd.concat([r1,result3], axis=1)
-# print(c)
-# print(r1)
-# print(r2)
-
+r12 = pd.concat([r1,result12], axis=1)
+r2 = pd.concat([r12,result3], axis=1)
 
 # splitting dataset into train and test
 from sklearn.model_selection import train_test_split
 
-x_train,x_test,y_train,y_test = train_test_split(r1,result3,test_size=0.33,random_state=0)
+x_train,x_test,y_train,y_test = train_test_split(r12,result3,test_size=0.33,random_state=0)
+
+# print(x_train)
+# print(y_train)
 
 # linear regresssion
 from sklearn.linear_model import LinearRegression
@@ -49,45 +47,45 @@ from sklearn.linear_model import LinearRegression
 regressor = LinearRegression()
 regressor.fit(x_train,y_train) # learn y_train with respect to x_train
 y_pred = regressor.predict(x_test)
-# print(y_test)
-# print(y_pred)
+print(y_test)
+print(y_pred)
 
 # multiple linear regression
-boy = r2.iloc[:,3:4].values
-# print(boy)
+play_target = r2.iloc[:,6:7].values
 
-left = r2.iloc[:,:3]
-right = r2.iloc[:,4:]
-
-data = pd.concat([left,right], axis=1)
-x_train,x_test,y_train,y_test = train_test_split(data,boy,test_size=0.33,random_state=0)
+data = r2.iloc[:,:6]
+x_train,x_test,y_train,y_test = train_test_split(data,play_target,test_size=0.33,random_state=0)
 # print(x_train)
 # print(y_train)
 
 regressor2 = LinearRegression()
 regressor2.fit(x_train,y_train)
 y_pred = regressor2.predict(x_test)
-# print(y_pred)
-# print(y_test)
+print(y_pred)
+print(y_test)
+
+# plt.scatter(y_test, y_pred)
+# plt.plot(y_test, y_test)
+# plt.show()
 
 # backward elimination
 import statsmodels.api as sm
 
-X = np.append(arr=np.ones((22,1)).astype(int), values=data, axis=1) # to make beta0 = 1, created an all 1 array
+X = np.append(arr=np.ones((14,1)).astype(int), values=data, axis=1) # to make beta0 = 1, created an all 1 array
 print(X)
 
 X_l = data.iloc[:,[0,1,2,3,4,5]].values
 X_l = np.array(X_l, dtype=float)
-model = sm.OLS(boy,X_l).fit() # Ordinary Least Squares
+model = sm.OLS(play_target,X_l).fit() # Ordinary Least Squares
 print(model.summary())
 
 X_l = data.iloc[:,[0,1,2,3,5]].values
 X_l = np.array(X_l, dtype=float)
-model = sm.OLS(boy,X_l).fit() 
+model = sm.OLS(play_target,X_l).fit() 
 print(model.summary())
 
 X_l = data.iloc[:,[0,1,2,3]].values
 X_l = np.array(X_l, dtype=float)
-model = sm.OLS(boy,X_l).fit() 
+model = sm.OLS(play_target,X_l).fit() 
 print(model.summary())
 
