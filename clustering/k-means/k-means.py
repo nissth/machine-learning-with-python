@@ -22,3 +22,12 @@ for i in range(1,11):
 
 plt.plot(range(1,11), results)
 plt.show()
+
+kmeans = KMeans(n_clusters=3, init='k-means++')
+y_pred = kmeans.fit_predict(x)
+print(y_pred)
+
+plt.scatter(x[y_pred==0,0], x[y_pred==0,1], s=100, c='red')
+plt.scatter(x[y_pred==1,0], x[y_pred==1,1], s=100, c='blue')
+plt.scatter(x[y_pred==2,0], x[y_pred==2,1], s=100, c='green')
+plt.show()
