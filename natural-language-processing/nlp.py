@@ -32,6 +32,7 @@ ps = PorterStemmer()
 
 from nltk.corpus import stopwords 
 
+# preprocessing
 collection = []
 all_stopwords = set(stopwords.words('english'))
 for i in range(1000):
@@ -48,8 +49,11 @@ for i in range(1000):
     # print(review)
 
     collection.append(review)
-print(collection)
+# print(collection)
 
+# feature extraction
+# bag of words(bow)
+# transforming raw, complex data into a smaller, structured set of numerical features
 from sklearn.feature_extraction.text import CountVectorizer
 cv = CountVectorizer(max_features=1000)
 x = cv.fit_transform(collection).toarray()
@@ -57,3 +61,17 @@ y = datas.iloc[:,1].values
 
 # print(x)
 # print(y)
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.20,random_state=0)
+
+# classification
+from sklearn.naive_bayes import GaussianNB
+gnb = GaussianNB()
+
+gnb.fit(x_train,y_train)
+y_pred = gnb.predict(x_test)
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test,y_pred)
+print(cm)
