@@ -33,6 +33,7 @@ ps = PorterStemmer()
 from nltk.corpus import stopwords 
 
 collection = []
+all_stopwords = set(stopwords.words('english'))
 for i in range(1000):
     review = re.sub('[^a-zA-Z]',' ', datas['Review'][i])
 
@@ -42,9 +43,17 @@ for i in range(1000):
     # print(review)
 
     # removing stopwords then add the rest into an array
-    review = [ps.stem(word_) for word_ in review if not word_ in set(stopwords.words('english'))] 
+    review = [ps.stem(word_) for word_ in review if not word_ in all_stopwords] 
     review = ' '.join(review) # reunite the words in the array as a string, add a space between the word 
     # print(review)
 
     collection.append(review)
 print(collection)
+
+from sklearn.feature_extraction.text import CountVectorizer
+cv = CountVectorizer(max_features=1000)
+x = cv.fit_transform(collection).toarray()
+y = datas.iloc[:,1].values
+
+# print(x)
+# print(y)
