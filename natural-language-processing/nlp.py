@@ -27,7 +27,7 @@ import nltk
 stop = nltk.download('stopwords')
 # print(stop)
 
-from nltk.stem.porter import PorterStemmer
+from nltk.stem.porter import PorterStemmer # remove the suffixes from an English word 
 ps = PorterStemmer()
 
 from nltk.corpus import stopwords 
@@ -51,7 +51,7 @@ for i in range(1000):
     collection.append(review)
 # print(collection)
 
-# feature extraction
+# feature extraction / öznitelik
 # bag of words(bow)
 # transforming raw, complex data into a smaller, structured set of numerical features
 from sklearn.feature_extraction.text import CountVectorizer
@@ -62,6 +62,7 @@ y = datas.iloc[:,1].values
 # print(x)
 # print(y)
 
+# machine learning
 from sklearn.model_selection import train_test_split
 x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.20,random_state=0)
 
