@@ -18,12 +18,17 @@ for line in lines[1:]:
 datas = pd.DataFrame(rows, columns=header)
 datas['Liked'] = datas['Liked'].astype(int)
 
+# Check how many rows successfully loaded
+print("Total rows loaded:", len(datas))
+
 import re 
 
 review = re.sub('[^a-zA-Z]',' ', datas['Review'][0])
-print(review)
+
 # review1 = re.sub('[^a-zA-Z]',' ', datas['Review'][6])
 # print(review1)
 
-# Check how many rows successfully loaded
-print("Total rows loaded:", len(datas))
+review = review.lower() # turning every letter to lower case
+print(review)
+review = review.split() # splitting every word into an array
+print(review)
