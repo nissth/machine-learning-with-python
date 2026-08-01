@@ -22,21 +22,29 @@ datas['Liked'] = datas['Liked'].astype(int)
 print("Total rows loaded:", len(datas))
 
 import re 
-
-review = re.sub('[^a-zA-Z]',' ', datas['Review'][0])
-
-# review1 = re.sub('[^a-zA-Z]',' ', datas['Review'][6])
-# print(review1)
-
-review = review.lower() # turning every letter to lower case
-print(review)
-review = review.split() # splitting every word into an array
-print(review)
-
 import nltk
 
 stop = nltk.download('stopwords')
-print(stop)
+# print(stop)
 
 from nltk.stem.porter import PorterStemmer
 ps = PorterStemmer()
+
+from nltk.corpus import stopwords 
+
+collection = []
+for i in range(1000):
+    review = re.sub('[^a-zA-Z]',' ', datas['Review'][i])
+
+    review = review.lower() # turning every letter to lower case
+    # print(review)
+    review = review.split() # splitting every word into an array
+    # print(review)
+
+    # removing stopwords then add the rest into an array
+    review = [ps.stem(word_) for word_ in review if not word_ in set(stopwords.words('english'))] 
+    review = ' '.join(review) # reunite the words in the array as a string, add a space between the word 
+    # print(review)
+
+    collection.append(review)
+print(collection)
