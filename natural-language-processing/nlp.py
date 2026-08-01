@@ -32,3 +32,11 @@ review = review.lower() # turning every letter to lower case
 print(review)
 review = review.split() # splitting every word into an array
 print(review)
+
+import nltk
+
+stop = nltk.download('stopwords')
+print(stop)
+
+from nltk.stem.porter import PorterStemmer
+ps = PorterStemmer()
