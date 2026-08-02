@@ -1,0 +1,38 @@
+import tensorflow as tf
+from keras.models import Sequential
+from keras.layers import Dense
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# importing data
+datas = pd.read_csv('deep-learning/Churn_Modelling.csv')
+
+x = datas.iloc[:,3:13].values
+y = datas.iloc[:,13].values
+
+from sklearn import preprocessing
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+ 
+le = preprocessing.LabelEncoder() #turns categorical values into numerical
+x[:,1] = le.fit_transform(x[:,1])
+le2 = preprocessing.LabelEncoder()
+x[:,2] = le2.fit_transform(x[:,2])
+
+ohe = ColumnTransformer([("ohe", OneHotEncoder(dtype=float),[1])], remainder="passthrough")
+x = ohe.fit_transform(x)
+x = x[:,1:]
+
+# splitting dataset into train and test
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.33,random_state=0)
+
+# standardization
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+
+x_train = sc.fit_transform(x_train)
+x_test = sc.transform(x_test)
+
+# artificial neural networks
