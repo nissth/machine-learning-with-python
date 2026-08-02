@@ -1,15 +1,17 @@
-import tensorflow as tf
-from keras.models import Sequential
-from keras.layers import Dense
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import tensorflow as tf
+from keras.models import Sequential
+from keras.layers import Dense, Input
 
 # importing data
 datas = pd.read_csv('deep-learning/Churn_Modelling.csv')
 
-x = datas.iloc[:,3:13].values
-y = datas.iloc[:,13].values
+x = datas.iloc[:,3:13].values # input layer
+y = datas.iloc[:,13].values # output layer
 
 from sklearn import preprocessing
 from sklearn.preprocessing import OneHotEncoder
@@ -36,3 +38,6 @@ x_train = sc.fit_transform(x_train)
 x_test = sc.transform(x_test)
 
 # artificial neural networks
+classifier = Sequential() # initializing a neuron
+classifier.add(Input(shape=(11,)))
+classifier.add(Dense(6, kernel_initializer="uniform", activation="relu"))
