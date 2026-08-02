@@ -1,6 +1,19 @@
 import tensorflow as tf
-print("TensorFlow Sürümü:", tf.__version__)
+from keras.models import Sequential
+from keras.layers import Dense
+import numpy as np
 
-# Basit bir tensör işlemi
-tensor = tf.constant([[1.0, 2.0], [3.0, 4.0]])
-print("Tensör:\n", tensor)
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=float)
+y = np.array([[0], [1], [1], [0]], dtype=float)
+
+model = Sequential([
+    Dense(8, input_dim=2, activation='relu'), 
+    Dense(1, activation='sigmoid')            
+])
+
+model.compile(optimizer='adam',
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+print("TensorFlow version:", tf.__version__)
+model.summary()
