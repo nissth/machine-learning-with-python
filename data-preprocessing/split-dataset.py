@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # importing data
-datas = pd.read_csv('eksikveriler.csv')
+datas = pd.read_csv('data-preprocessing/eksikveriler.csv')
 
 # missing datas
 ulke = datas.iloc[:,0:1].values.copy() #integer location

@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # importing data
-datas = pd.read_csv('eksikveriler.csv')
+datas = pd.read_csv('data-preprocessing/eksikveriler.csv')
 
 # missing datas
 ulke = datas.iloc[:,0:1].values.copy() #integer location
@@ -47,7 +47,7 @@ from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
 
 x_train = sc.fit_transform(x_train)
-x_test = sc.fit_transform(x_test)
+x_test = sc.transform(x_test)
 
 print(x_train)
 print(' ')
