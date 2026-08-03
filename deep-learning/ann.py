@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from keras.models import Sequential
-from keras.layers import Dense, Input
+from keras.layers import Dense
 
 # importing data
 datas = pd.read_csv('deep-learning/Churn_Modelling.csv')
@@ -39,5 +39,20 @@ x_test = sc.transform(x_test)
 
 # artificial neural networks
 classifier = Sequential() # initializing a neuron
-classifier.add(Input(shape=(11,)))
-classifier.add(Dense(6, kernel_initializer="uniform", activation="relu"))
+# input layer
+classifier.add(Dense(6, kernel_initializer='uniform', activation='relu', input_dim=11))
+# hidden layer
+classifier.add(Dense(6, kernel_initializer='uniform', activation='relu'))
+# output layer
+classifier.add(Dense(1, kernel_initializer='uniform', activation='sigmoid'))
+
+classifier.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+classifier.fit(x_train,y_train, epochs=50)
+y_pred = classifier.predict(x_test)
+
+y_pred= (y_pred>0.5)
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test,y_pred)
+print(cm)
